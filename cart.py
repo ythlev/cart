@@ -6,7 +6,7 @@ def fill(
     based = True, # for seq data; if data has a baseline value
     threshold = None, # list of threshold values
     colour = None, # list of colours to use
-    area_keyword = 'path id', # keyword used to identify area paths
+    area_keyword = 'Z" id', # keyword used to identify area paths
     replace_string = 'id="{}"' # string to replace, with format placeholder
 ):
     import statistics, math
@@ -39,7 +39,7 @@ def fill(
         if colour == None:
             colour = ['#8c510a','#d8b365','#f6e8c3','#c7eae5','#5ab4ac','#01665e']
         if threshold == None:
-            threshold = [-999, -mean, -mean / 4, 0, mean / 4, mean]
+            threshold = [0, -mean, -mean / 4, 0, mean / 4, mean]
     print("Thresholds:", ["{:.0f}".format(i) for i in threshold])
     with open(template + ".svg", newline = "", encoding = "utf-8") as file_in:
         with open(template + "-result.svg", "w", newline = "", encoding = "utf-8") as file_out:
