@@ -35,9 +35,9 @@ with open("election/local/elctks.csv", newline = "", encoding = "utf-8") as file
                 data[id] = el[id][args["winner index"]] - el[id][args["runner-up index"]]
 
 colours = {
-    "dpp": ['#41ab5d','#238b45','#005a32'],
-    "kmt": ['#4292c6','#2171b5','#084594'],
-    "ind": ['#737373','#525252','#252525']
+    "dpp": ['#d9f0d3','#7fbf7b','#1b7837'],
+    "kmt": ['#d1e5f0','#67a9cf','#2166ac'],
+    "ind": ['#e0e0e0','#999999','#4d4d4d']
 }
 
 colours[args["runner-up party"]].reverse()
