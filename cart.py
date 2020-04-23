@@ -32,7 +32,7 @@ def fill(
         mean_index = ((bands + 1) // 2)
         step = math.sqrt(mean - q[0]) / mean_index
         if threshold == None:
-            threshold = [0]
+            threshold = []
             for i in range(bands):
                 threshold.append(math.pow(i * step, 2) + q[0])
     else:
@@ -48,7 +48,7 @@ def fill(
                     for k, v in data.items():
                         if row.find(k) > -1:
                             i = 0
-                            while i < 5:
+                            while i < bands - 1:
                                 if v >= threshold[i + 1]:
                                     i += 1
                                 else:
