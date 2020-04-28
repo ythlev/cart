@@ -9,19 +9,22 @@ parser.add_argument("runner-up party")
 args = vars(parser.parse_args())
 
 code = {
-    "Taipei": "63",
-    "Kaohsiung": "64",
-    "Tainan": "67"
+    "Taipei": "63000",
+    "Kaohsiung": "64000",
+    "New Taipei": "65000",
+    "Taoyuan": "68000",
+    "Tainan": "67000",
+    "Chiayi": "10020"
 }
-vill = ["Taipei"]
+vill = ["Taipei", "Chiayi", "Taoyuan"]
 el, data = {}, {}
 
 with open("election/local/elctks.csv", newline = "", encoding = "utf-8") as file:
     for row in csv.reader(file):
         row = [s.lstrip("'") for s in row]
-        if (row[0] == code[args["area"]] and
+        if (row[0] + row[1] == code[args["area"]] and
             row[3] != "000" and
-            (args["area"] in ["Kaohsiung", "Tainan"] and row[4] == "0000") or
+            (args["area"] not in vill and row[4] == "0000") or
         (row[4] != "0000")):
             id = row[0] + row[1] + row[3]
             if args["area"] in vill:
