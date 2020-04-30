@@ -4,23 +4,27 @@ parser = argparse.ArgumentParser()
 parser.add_argument("year")
 args = vars(parser.parse_args())
 
-oc = {}
-with open("election/old-codes.json", newline = "", encoding = "utf-8") as file:
-    oc = json.loads(file.read())["ly-sntv"][args["year"]]
+if int(args["year"]) < 2016:
+    oc = {}
+    with open("election/old-codes.json", newline = "", encoding = "utf-8") as file:
+        oc = json.loads(file.read())["ly-pr"][args["year"]]
 
 party = {}
-with open("election/ly-sntv/elcand.csv", newline = "", encoding = "utf-8") as file:
+with open("election/ly-pr/elcand.csv", newline = "", encoding = "utf-8") as file:
     for row in csv.reader(file):
-        row = [s.rstrip(" ") for s in row]
-        party[row[0] + row[1] + row[2] + row[5]] = row[7]
+        row = [s.rstrip(" ").lstrip("'") for s in row]
+        party[row[5]] = row[7]
 
 el = {}
-with open("election/ly-sntv/elctks.csv", newline = "", encoding = "utf-8") as file:
+with open("election/ly-pr/elctks.csv", newline = "", encoding = "utf-8") as file:
     for row in csv.reader(file):
-        row = [s.rstrip(" ") for s in row]
+        row = [s.rstrip(" ").lstrip("'") for s in row]
         if row[3] != "000" and row[4] == "0000":
-            id = row[0] + row[1] + row[2] + row[6]
-            id3 = "_" + oc[row[0] + row[1] + row[3]]
+            id = row[6]
+            if int(args["year"]) < 2016:
+                id3 = "_" + oc[row[0] + row[1] + row[3]]
+            else:
+                id3 = "_" + row[0] + row[1] + row[3]
             if id3 not in el:
                 el[id3] = {}
             if party[id] not in el[id3]:
@@ -29,26 +33,24 @@ with open("election/ly-sntv/elctks.csv", newline = "", encoding = "utf-8") as fi
 
 data = {}
 for town in el:
-    total = 0
     leader, votes = "", 0
     for party in el[town]:
-        total += el[town][party]
         if el[town][party] > votes:
             leader = party
             votes = el[town][party]
-    data[town] = [leader, votes, total]
+    data[town] = [leader, votes]
 
 colour = {
     "1": ['#d1e5f0','#67a9cf','#2166ac'], #kmt
-    "2": ['#d9f0d3','#7fbf7b','#1b7837'], #dpp
-    "3": ['#fee6ce','#fdae6b','#e6550d'], #pfp
-    "4": ['#f6e8c3','#d8b365','#8c510a'], #tsu
-    "5": ['#fff7bc','#fec44f','#d95f0e'], #np
-    "13": ['#e0e0e0','#999999','#4d4d4d'],
-    "99": ['#e0e0e0','#999999','#4d4d4d'], #ind
+    "16": ['#d9f0d3','#7fbf7b','#1b7837'], #dpp
+    "90": ['#fee6ce','#fdae6b','#e6550d'], #pfp
+    "95": ['#f6e8c3','#d8b365','#8c510a'], #tsu
+    "303": ['#f6e8c3','#d8b365','#8c510a'], #tsp
+    "74": ['#fff7bc','#fec44f','#d95f0e'], #np
+    "267": ['#fff7bc','#fec44f','#d95f0e'], #npp
+    "106": ['#fde0dd','#fa9fb5','#c51b8a'], #npsu
+    "999": ['#e0e0e0','#999999','#4d4d4d'], #ind
 }
-if int(args["year"]) > 2001:
-    colour["7"] = ['#fde0dd','#fa9fb5','#c51b8a'] #npsu
 
 def fill(
     template, # name of template file name
@@ -108,13 +110,8 @@ def fill(
                 else:
                     file_out.write(row)
 
-if int(args["year"]) < 2004:
-    template = "election/ly-sntv/pre-2004"
-else:
-    template = "election/ly-sntv/2004"
-
 fill(
-    template = template,
+    template = "election/ly-pr/pr",
     data = data,
     data_type = "seq",
     colour = colour,
