@@ -1,0 +1,6 @@
+width=1440 id-field=TOWNCODE svg-data=TOWNNAME,TOWNENG
+ data-townname="(.+?)" data-towneng="(.+?)"/>
+><title>$1 $2</title></path>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" baseProfile="tiny" width="1440" height="">
+<g id="town" stroke="#000" stroke-width="1">

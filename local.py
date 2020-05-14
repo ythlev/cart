@@ -9,14 +9,18 @@ parser.add_argument("runner-up party")
 args = vars(parser.parse_args())
 
 code = {
-    "Taipei": "63000",
-    "Kaohsiung": "64000",
     "New Taipei": "65000",
+    "Taipei": "63000",
     "Taoyuan": "68000",
+    "Taichung": "66000",
     "Tainan": "67000",
-    "Chiayi": "10020"
+    "Kaohsiung": "64000",
+    "Hsinchu": "10004",
+    "Changhua": "10007",
+    "Yunlin": "10009",
+    "Pingtung": "10013"
 }
-vill = ["Taipei", "Chiayi", "Taoyuan"]
+vill = []
 el, data = {}, {}
 
 with open("election/local/elctks.csv", newline = "", encoding = "utf-8") as file:
@@ -40,7 +44,8 @@ with open("election/local/elctks.csv", newline = "", encoding = "utf-8") as file
 colours = {
     "dpp": ['#d9f0d3','#7fbf7b','#1b7837'],
     "kmt": ['#d1e5f0','#67a9cf','#2166ac'],
-    "ind": ['#e0e0e0','#999999','#4d4d4d']
+    "ind": ['#e0e0e0','#999999','#4d4d4d'],
+    "mkt": ['#fff7bc','#fec44f','#d95f0e']
 }
 
 colours[args["runner-up party"]].reverse()
