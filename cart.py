@@ -37,6 +37,7 @@ def fill(
                 for i in range(bands):
                     threshold.append(math.pow(i * step, 2) + q[0])
         else:
+            bands = 6
             if colour == None:
                 colour = ['#8c510a','#d8b365','#f6e8c3','#c7eae5','#5ab4ac','#01665e']
             if threshold == None:
