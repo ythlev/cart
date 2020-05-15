@@ -15,12 +15,16 @@ code = {
     "Taichung": "66000",
     "Tainan": "67000",
     "Kaohsiung": "64000",
+    "Yilan": "10002",
     "Hsinchu": "10004",
     "Miaoli": "10005",
     "Changhua": "10007",
+    "Nantou": "10008",
     "Yunlin": "10009",
     "Chiayi": "10010",
-    "Pingtung": "10013"
+    "Pingtung": "10013",
+    "Taitung": "10014",
+    "Hualien": "10015"
 }
 el, data = {}, {}
 
