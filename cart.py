@@ -42,7 +42,6 @@ def fill(
                 colour = ['#8c510a','#d8b365','#f6e8c3','#c7eae5','#5ab4ac','#01665e']
             if threshold == None:
                 threshold = [0, -mean, -mean / 4, 0, mean / 4, mean]
-    print("Thresholds:", ["{:.0f}".format(i) for i in threshold])
     with open(template + ".svg", newline = "", encoding = "utf-8") as file_in:
         with open(template + "-result.svg", "w", newline = "", encoding = "utf-8") as file_out:
             for row in file_in:
@@ -59,3 +58,10 @@ def fill(
                             break
                 else:
                     file_out.write(row)
+    if bands == 6:
+        print("|" + colour[5] + "|" + " lead > " + "{:,.0f}".format(round(abs(threshold[5]) / 100) * 100))
+        print("|" + colour[4] + "|" + " lead > " + "{:,.0f}".format(round(abs(threshold[4]) / 100) * 100))
+        print("|" + colour[3] + "|" + " lead < " + "{:,.0f}".format(round(abs(threshold[4]) / 100) * 100))
+        print("|" + colour[2] + "|" + " lead < " + "{:,.0f}".format(round(abs(threshold[2]) / 100) * 100))
+        print("|" + colour[1] + "|" + " lead > " + "{:,.0f}".format(round(abs(threshold[2]) / 100) * 100))
+        print("|" + colour[0] + "|" + " lead > " + "{:,.0f}".format(round(abs(threshold[1]) / 100) * 100))

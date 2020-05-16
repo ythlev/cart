@@ -1,7 +1,8 @@
-import argparse, csv, cart
+import argparse, json, csv, cart
 
 parser = argparse.ArgumentParser()
 parser.add_argument("area")
+parser.add_argument("-y", "--year")
 parser.add_argument("winner index")
 parser.add_argument("winner party")
 parser.add_argument("runner-up index")
@@ -28,6 +29,14 @@ code = {
 }
 el, data = {}, {}
 
+if args["year"] != None:
+    with open("election/old-codes.json", newline = "", encoding = "utf-8") as file:
+        oc = json.loads(file.read())["local"][args["year"]]
+        for town in oc:
+            if oc[town][0:5] == code[args["area"]]:
+                code[args["area"]] = town[0:5]
+                break
+
 with open("election/local/elctks.csv", newline = "", encoding = "utf-8") as file:
     for row in csv.reader(file):
         row = [s.lstrip("'") for s in row]
@@ -41,7 +50,10 @@ with open("election/local/elctks.csv", newline = "", encoding = "utf-8") as file
             el[id] = {}
         el[id][row[6]] = int(row[7])
         if len(el[id]) == 2:
-            data[id] = el[id][args["winner index"]] - el[id][args["runner-up index"]]
+            if "oc" in globals():
+                data[oc[id]] = el[id][args["winner index"]] - el[id][args["runner-up index"]]
+            else:
+                data[id] = el[id][args["winner index"]] - el[id][args["runner-up index"]]
 
 colours = {
     "dpp": ['#d9f0d3','#7fbf7b','#1b7837'],
