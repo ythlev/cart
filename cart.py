@@ -21,11 +21,11 @@ def fill(
                 quit()
             if colour == None:
                 if bands == 5:
-                    colour = ['#fef0d9','#fdcc8a','#fc8d59','#e34a33','#b30000']
+                    colour = ['#feebe2','#fbb4b9','#f768a1','#c51b8a','#7a0177']
                 elif bands == 6:
-                    colour = ['#fef0d9','#fdd49e','#fdbb84','#fc8d59','#e34a33','#b30000']
+                    colour = ['#feebe2','#fcc5c0','#fa9fb5','#f768a1','#c51b8a','#7a0177']
                 elif bands == 7:
-                    colour = ['#fef0d9','#fdd49e','#fdbb84','#fc8d59','#ef6548','#d7301f','#990000']
+                    colour = ['#feebe2','#fcc5c0','#fa9fb5','#f768a1','#dd3497','#ae017e','#7a0177']
             if based == True:
                 q = statistics.quantiles(values, n = 100, method = "inclusive")
             else:
