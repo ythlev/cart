@@ -4,6 +4,7 @@ def fill(
     data_type = "div", # "div"ering or "seq"uential data
     bands = 5, # for seq data; number of bands
     based = True, # for seq data; if data has a baseline value
+    baseline = None,
     threshold = None, # list of threshold values
     colour = None, # list of colours to use
     area_keyword = 'Z" id', # keyword used to identify area paths
@@ -12,9 +13,17 @@ def fill(
     import statistics, math
     if threshold == None:
         values = []
-        for area in data:
-            values.append(abs(data[area]))
-        mean = statistics.mean(values)
+        if False:
+        #if isinstance(data.values()[0], list):
+            weight = 0
+            for area in data:
+                values.append(abs(data[area][0] * data[area][1]))
+                weight += data[area][1]
+            mean = statistics.mean(values / weight)
+        else:
+            for area in data:
+                values.append(abs(data[area]))
+            mean = statistics.mean(values)
         if data_type == "seq":
             if bands < 5 or bands > 7:
                 print("Number of bands must be between 5 and 7")
@@ -27,7 +36,10 @@ def fill(
                 elif bands == 7:
                     colour = ['#feebe2','#fcc5c0','#fa9fb5','#f768a1','#dd3497','#ae017e','#7a0177']
             if based == True:
-                q = statistics.quantiles(values, n = 100, method = "inclusive")
+                if baseline == None:
+                    q = statistics.quantiles(values, n = 100, method = "inclusive")
+                else:
+                    q = [baseline]
             else:
                 q = [0]
             mean_index = ((bands + 1) // 2)
@@ -58,7 +70,13 @@ def fill(
                             break
                 else:
                     file_out.write(row)
-    if bands == 6:
+    if data_type == "seq" and bands == 5:
+        print("|" + colour[0] + "|" + " < " + "{:,.0f}".format(round(abs(threshold[1]) / 100) * 100))
+        print("|" + colour[1] + "|" + " > " + "{:,.0f}".format(round(abs(threshold[1]) / 100) * 100))
+        print("|" + colour[2] + "|" + " > " + "{:,.0f}".format(round(abs(threshold[2]) / 100) * 100))
+        print("|" + colour[3] + "|" + " > " + "{:,.0f}".format(round(abs(threshold[3]) / 100) * 100))
+        print("|" + colour[4] + "|" + " > " + "{:,.0f}".format(round(abs(threshold[4]) / 100) * 100))
+    if data_type == "div":
         print("|" + colour[5] + "|" + " lead > " + "{:,.0f}".format(round(abs(threshold[5]) / 100) * 100))
         print("|" + colour[4] + "|" + " lead > " + "{:,.0f}".format(round(abs(threshold[4]) / 100) * 100))
         print("|" + colour[3] + "|" + " lead < " + "{:,.0f}".format(round(abs(threshold[4]) / 100) * 100))
