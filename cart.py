@@ -13,13 +13,13 @@ def fill(
     import statistics, math
     if threshold == None:
         values = []
-        if isinstance(list(data.values())[0], dict):
+        if False:
+        #if isinstance(data.values()[0], list):
             weight = 0
             for area in data:
-                values.append(abs(data[area]["value"] * data[area]["weight"]))
-                weight += data[area]["weight"]
-                data[area] = data[area]["value"]
-            mean = sum(values) / weight
+                values.append(abs(data[area][0] * data[area][1]))
+                weight += data[area][1]
+            mean = statistics.mean(values / weight)
         else:
             for area in data:
                 values.append(abs(data[area]))
